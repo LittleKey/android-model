@@ -530,7 +530,9 @@ public final class Model extends Message<Model, Model.Builder> {
 
     TEXT(6),
 
-    COMMENT(7);
+    COMMENT(7),
+
+    PICTURE(8);
 
     public static final ProtoAdapter<Type> ADAPTER = ProtoAdapter.newEnumAdapter(Type.class);
 
@@ -553,6 +555,7 @@ public final class Model extends Message<Model, Model.Builder> {
         case 5: return FAV;
         case 6: return TEXT;
         case 7: return COMMENT;
+        case 8: return PICTURE;
         default: return null;
       }
     }
@@ -588,7 +591,7 @@ public final class Model extends Message<Model, Model.Builder> {
 
     ITEM_COMMENT(11),
 
-    PICTURE(12);
+    PAGE_PICTURE(12);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -615,7 +618,7 @@ public final class Model extends Message<Model, Model.Builder> {
         case 9: return CATEGORY;
         case 10: return TITLE;
         case 11: return ITEM_COMMENT;
-        case 12: return PICTURE;
+        case 12: return PAGE_PICTURE;
         default: return null;
       }
     }
