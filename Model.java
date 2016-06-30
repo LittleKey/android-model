@@ -27,6 +27,7 @@ import me.littlekey.earth.model.proto.Count;
 import me.littlekey.earth.model.proto.Fav;
 import me.littlekey.earth.model.proto.Flag;
 import me.littlekey.earth.model.proto.Image;
+import me.littlekey.earth.model.proto.Picture;
 import me.littlekey.earth.model.proto.Tag;
 import me.littlekey.earth.model.proto.User;
 import me.littlekey.earth.utils.EarthUtils;
@@ -59,6 +60,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
           case COMMENT:
             Comment comment = Comment.ADAPTER.decode(bytes);
             return ModelFactory.createModelFromComment(comment, template);
+          case PICTURE:
+            Picture picture = Picture.ADAPTER.decode(bytes);
+            return ModelFactory.createModelFromPicture(picture, template);
           default:
             throw new ParcelFormatException(String.format("can not parcel '%s'", type.name()));
         }
@@ -98,6 +102,10 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         break;
       case COMMENT:
         dest.writeByteArray(comment.encode());
+        break;
+      case PICTURE:
+        dest.writeByteArray(picture.encode());
+        break;
       default:
         break;
     }
