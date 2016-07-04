@@ -63,6 +63,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
           case PICTURE:
             Picture picture = Picture.ADAPTER.decode(bytes);
             return ModelFactory.createModelFromPicture(picture, template);
+          case DLC:
+            Art dlc_art = Art.ADAPTER.decode(bytes);
+            return ModelFactory.createDLCModelFromArt(dlc_art, template);
           default:
             throw new ParcelFormatException(String.format("can not parcel '%s'", type.name()));
         }
@@ -88,6 +91,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     dest.writeInt(type.getValue());
     dest.writeInt(template.getValue());
     switch (type) {
+      case DLC:
       case ART:
         dest.writeByteArray(art.encode());
         break;
@@ -379,8 +383,8 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         && Internal.equals(flag, o.flag)
         && Internal.equals(category, o.category)
         && subModels.equals(o.subModels)
-        && Internal.equals(picture, o.picture)
-        && Internal.equals(addition, o.addition);
+        && Internal.equals(picture, o.picture);
+//        && Internal.equals(addition, o.addition);
   }
 
   @Override
@@ -411,7 +415,7 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
       result = result * 37 + (category != null ? category.hashCode() : 0);
       result = result * 37 + subModels.hashCode();
       result = result * 37 + (picture != null ? picture.hashCode() : 0);
-      result = result * 37 + (addition != null ? addition.hashCode() : 0);
+//      result = result * 37 + (addition != null ? addition.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
