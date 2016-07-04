@@ -188,11 +188,17 @@ public final class Model extends Message<Model, Model.Builder> {
   )
   public final Picture picture;
 
-  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String fileSize, String description, String url, String cover, String date, User user, Art art, Tag tag, Image image, Fav fav, Comment comment, Count count, Flag flag, Category category, List<Model> subModels, Picture picture) {
-    this(identity, token, type, template, title, subtitle, language, fileSize, description, url, cover, date, user, art, tag, image, fav, comment, count, flag, category, subModels, picture, ByteString.EMPTY);
+  @WireField(
+      tag = 24,
+      adapter = "me.littlekey.earth.model.proto.DLC#ADAPTER"
+  )
+  public final DLC dlc;
+
+  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String fileSize, String description, String url, String cover, String date, User user, Art art, Tag tag, Image image, Fav fav, Comment comment, Count count, Flag flag, Category category, List<Model> subModels, Picture picture, DLC dlc) {
+    this(identity, token, type, template, title, subtitle, language, fileSize, description, url, cover, date, user, art, tag, image, fav, comment, count, flag, category, subModels, picture, dlc, ByteString.EMPTY);
   }
 
-  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String fileSize, String description, String url, String cover, String date, User user, Art art, Tag tag, Image image, Fav fav, Comment comment, Count count, Flag flag, Category category, List<Model> subModels, Picture picture, ByteString unknownFields) {
+  public Model(String identity, String token, Type type, Template template, String title, String subtitle, String language, String fileSize, String description, String url, String cover, String date, User user, Art art, Tag tag, Image image, Fav fav, Comment comment, Count count, Flag flag, Category category, List<Model> subModels, Picture picture, DLC dlc, ByteString unknownFields) {
     super(ADAPTER, unknownFields);
     this.identity = identity;
     this.token = token;
@@ -217,6 +223,7 @@ public final class Model extends Message<Model, Model.Builder> {
     this.category = category;
     this.subModels = Internal.immutableCopyOf("subModels", subModels);
     this.picture = picture;
+    this.dlc = dlc;
   }
 
   @Override
@@ -245,6 +252,7 @@ public final class Model extends Message<Model, Model.Builder> {
     builder.category = category;
     builder.subModels = Internal.copyOf("subModels", subModels);
     builder.picture = picture;
+    builder.dlc = dlc;
     builder.addUnknownFields(unknownFields());
     return builder;
   }
@@ -277,7 +285,8 @@ public final class Model extends Message<Model, Model.Builder> {
         && Internal.equals(flag, o.flag)
         && Internal.equals(category, o.category)
         && subModels.equals(o.subModels)
-        && Internal.equals(picture, o.picture);
+        && Internal.equals(picture, o.picture)
+        && Internal.equals(dlc, o.dlc);
   }
 
   @Override
@@ -308,6 +317,7 @@ public final class Model extends Message<Model, Model.Builder> {
       result = result * 37 + (category != null ? category.hashCode() : 0);
       result = result * 37 + subModels.hashCode();
       result = result * 37 + (picture != null ? picture.hashCode() : 0);
+      result = result * 37 + (dlc != null ? dlc.hashCode() : 0);
       super.hashCode = result;
     }
     return result;
@@ -339,6 +349,7 @@ public final class Model extends Message<Model, Model.Builder> {
     if (category != null) builder.append(", category=").append(category);
     if (!subModels.isEmpty()) builder.append(", subModels=").append(subModels);
     if (picture != null) builder.append(", picture=").append(picture);
+    if (dlc != null) builder.append(", dlc=").append(dlc);
     return builder.replace(0, 2, "Model{").append('}').toString();
   }
 
@@ -388,6 +399,8 @@ public final class Model extends Message<Model, Model.Builder> {
     public List<Model> subModels;
 
     public Picture picture;
+
+    public DLC dlc;
 
     public Builder() {
       subModels = Internal.newMutableList();
@@ -509,9 +522,14 @@ public final class Model extends Message<Model, Model.Builder> {
       return this;
     }
 
+    public Builder dlc(DLC dlc) {
+      this.dlc = dlc;
+      return this;
+    }
+
     @Override
     public Model build() {
-      return new Model(identity, token, type, template, title, subtitle, language, fileSize, description, url, cover, date, user, art, tag, image, fav, comment, count, flag, category, subModels, picture, super.buildUnknownFields());
+      return new Model(identity, token, type, template, title, subtitle, language, fileSize, description, url, cover, date, user, art, tag, image, fav, comment, count, flag, category, subModels, picture, dlc, super.buildUnknownFields());
     }
   }
 
@@ -532,7 +550,9 @@ public final class Model extends Message<Model, Model.Builder> {
 
     COMMENT(7),
 
-    PICTURE(8);
+    PICTURE(8),
+
+    DLC(9);
 
     public static final ProtoAdapter<Type> ADAPTER = ProtoAdapter.newEnumAdapter(Type.class);
 
@@ -556,6 +576,7 @@ public final class Model extends Message<Model, Model.Builder> {
         case 6: return TEXT;
         case 7: return COMMENT;
         case 8: return PICTURE;
+        case 9: return DLC;
         default: return null;
       }
     }
@@ -591,7 +612,9 @@ public final class Model extends Message<Model, Model.Builder> {
 
     ITEM_COMMENT(11),
 
-    PAGE_PICTURE(12);
+    PAGE_PICTURE(12),
+
+    ITEM_DLC(13);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -619,6 +642,7 @@ public final class Model extends Message<Model, Model.Builder> {
         case 10: return TITLE;
         case 11: return ITEM_COMMENT;
         case 12: return PAGE_PICTURE;
+        case 13: return ITEM_DLC;
         default: return null;
       }
     }
@@ -716,6 +740,7 @@ public final class Model extends Message<Model, Model.Builder> {
           + (value.category != null ? Category.ADAPTER.encodedSizeWithTag(21, value.category) : 0)
           + Model.ADAPTER.asRepeated().encodedSizeWithTag(22, value.subModels)
           + (value.picture != null ? Picture.ADAPTER.encodedSizeWithTag(23, value.picture) : 0)
+          + (value.dlc != null ? DLC.ADAPTER.encodedSizeWithTag(24, value.dlc) : 0)
           + value.unknownFields().size();
     }
 
@@ -744,6 +769,7 @@ public final class Model extends Message<Model, Model.Builder> {
       if (value.category != null) Category.ADAPTER.encodeWithTag(writer, 21, value.category);
       Model.ADAPTER.asRepeated().encodeWithTag(writer, 22, value.subModels);
       if (value.picture != null) Picture.ADAPTER.encodeWithTag(writer, 23, value.picture);
+      if (value.dlc != null) DLC.ADAPTER.encodeWithTag(writer, 24, value.dlc);
       writer.writeBytes(value.unknownFields());
     }
 
@@ -797,6 +823,7 @@ public final class Model extends Message<Model, Model.Builder> {
           }
           case 22: builder.subModels.add(Model.ADAPTER.decode(reader)); break;
           case 23: builder.picture(Picture.ADAPTER.decode(reader)); break;
+          case 24: builder.dlc(DLC.ADAPTER.decode(reader)); break;
           default: {
             FieldEncoding fieldEncoding = reader.peekFieldEncoding();
             Object value = fieldEncoding.rawProtoAdapter().decode(reader);
@@ -821,6 +848,7 @@ public final class Model extends Message<Model, Model.Builder> {
       if (builder.flag != null) builder.flag = Flag.ADAPTER.redact(builder.flag);
       Internal.redactElements(builder.subModels, Model.ADAPTER);
       if (builder.picture != null) builder.picture = Picture.ADAPTER.redact(builder.picture);
+      if (builder.dlc != null) builder.dlc = DLC.ADAPTER.redact(builder.dlc);
       builder.clearUnknownFields();
       return builder.build();
     }
