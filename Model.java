@@ -91,7 +91,6 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
     dest.writeInt(type.getValue());
     dest.writeInt(template.getValue());
     switch (type) {
-      case DLC:
       case ART:
         dest.writeByteArray(art.encode());
         break;
@@ -109,6 +108,9 @@ public final class Model extends Message<Model, Model.Builder> implements Parcel
         break;
       case PICTURE:
         dest.writeByteArray(picture.encode());
+        break;
+      case DLC:
+        dest.writeByteArray(addition.art.encode());
         break;
       default:
         break;
