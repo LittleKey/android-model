@@ -716,6 +716,60 @@ public final class Model extends Message<Model, Model.Builder> {
     }
   }
 
+  public enum AdvOpt implements WireEnum {
+    NAME(1),
+
+    TAGS(2),
+
+    R(3),
+
+    RDD(4),
+
+    DESC(5),
+
+    TORR(6),
+
+    TO(7),
+
+    DT1(8),
+
+    DT2(9),
+
+    H(10);
+
+    public static final ProtoAdapter<AdvOpt> ADAPTER = ProtoAdapter.newEnumAdapter(AdvOpt.class);
+
+    private final int value;
+
+    AdvOpt(int value) {
+      this.value = value;
+    }
+
+    /**
+     * Return the constant for {@code value} or null.
+     */
+    public static AdvOpt fromValue(int value) {
+      switch (value) {
+        case 1: return NAME;
+        case 2: return TAGS;
+        case 3: return R;
+        case 4: return RDD;
+        case 5: return DESC;
+        case 6: return TORR;
+        case 7: return TO;
+        case 8: return DT1;
+        case 9: return DT2;
+        case 10: return H;
+        default: return null;
+      }
+    }
+
+    @Override
+    public int getValue() {
+      return value;
+    }
+  }
+
   private static final class ProtoAdapter_Model extends ProtoAdapter<Model> {
     ProtoAdapter_Model() {
       super(FieldEncoding.LENGTH_DELIMITED, Model.class);
