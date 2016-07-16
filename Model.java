@@ -622,7 +622,9 @@ public final class Model extends Message<Model, Model.Builder> {
 
     RATING_SELECT(16),
 
-    QUICK_SEARCH(17);
+    QUICK_SEARCH(17),
+
+    ITEM_FAVORITES(18);
 
     public static final ProtoAdapter<Template> ADAPTER = ProtoAdapter.newEnumAdapter(Template.class);
 
@@ -655,6 +657,7 @@ public final class Model extends Message<Model, Model.Builder> {
         case 15: return ADVANCED_SEARCH;
         case 16: return RATING_SELECT;
         case 17: return QUICK_SEARCH;
+        case 18: return ITEM_FAVORITES;
         default: return null;
       }
     }
